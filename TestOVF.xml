@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Envelope xmlns="http://schemas.dmtf.org/ovf/envelope/1" xmlns:cim="http://schemas.dmtf.org/wbem/wscim/1/common" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:vssd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <References>
+    <File ovf:href="ubuntu-12.04-server-cloudimg-amd64-disk1.img" ovf:id="file1" ovf:size="260178432" />
+  </References>
+  <DiskSection>
+    <Info>Virtual disk information</Info>
+    <Disk ovf:capacity="2361393152" ovf:diskId="root_disk" ovf:format="http://www.ibm.com/xmlns/ovf/diskformat/power.raw"/>
+    <Disk ovf:capacity="2361393152" ovf:diskId="ephemeral_disk" ovf:format="http://www.ibm.com/xmlns/ovf/diskformat/power.raw"/>
+    <Disk ovf:capacity="2361393152" ovf:diskId="swap_disk" ovf:format="http://www.ibm.com/xmlns/ovf/diskformat/power.raw"/>
+  </DiskSection>
+  <VirtualSystem ovf:id="vm">
+    <Name>Ubuntu</Name>
+    <VirtualHardwareSection ovf:transport="iso">
+      <Info>Virtual hardware requirements</Info>
+      <System>
+        <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>
+        <vssd:InstanceID>0</vssd:InstanceID>
+        <vssd:VirtualSystemIdentifier>Ubuntu 12.04 LTS (Precise Pangolin) Server</vssd:VirtualSystemIdentifier>
+        <vssd:VirtualSystemType>vmx-08 qemu-pc qemu-pc-0.13 virtualbox-2.2</vssd:VirtualSystemType>
+      </System>
+      <Item>
+        <rasd:Description>Number of Virtual CPUs</rasd:Description>
+        <rasd:ElementName>1 virtual CPU(s)</rasd:ElementName>
+        <rasd:InstanceID>1</rasd:InstanceID>
+        <rasd:ResourceType>3</rasd:ResourceType>
+        <rasd:VirtualQuantity>1</rasd:VirtualQuantity>
+      </Item>
+      <Item>
+        <rasd:AllocationUnits>megabyte</rasd:AllocationUnits>
+        <rasd:Description>Memory Size</rasd:Description>
+        <rasd:ElementName>256MB of memory</rasd:ElementName>
+        <rasd:InstanceID>2</rasd:InstanceID>
+        <rasd:ResourceType>4</rasd:ResourceType>
+        <rasd:VirtualQuantity>256</rasd:VirtualQuantity>
+      </Item>
+      <Item>
+        <rasd:Caption>root_disk</rasd:Caption>
+        <rasd:Description>Root Disk</rasd:Description>
+        <rasd:ElementName>root_disk</rasd:ElementName>
+        <rasd:HostResource>/disk/root_disk</rasd:HostResource>
+        <rasd:InstanceID>3</rasd:InstanceID>
+        <rasd:ResourceType>17</rasd:ResourceType>
+      </Item>
+      <Item>
+        <rasd:Caption>ephemeral_disk</rasd:Caption>
+        <rasd:Description>Ephemeral Image</rasd:Description>
+        <rasd:ElementName>ephemeral_disk</rasd:ElementName>
+        <rasd:HostResource>/disk/ephemeral_disk</rasd:HostResource>
+        <rasd:InstanceID>4</rasd:InstanceID>
+        <rasd:ResourceType>17</rasd:ResourceType>
+      </Item>
+      <Item>
+        <rasd:Caption>swap_disk</rasd:Caption>
+        <rasd:Description>Swap Image</rasd:Description>
+        <rasd:ElementName>swap_disk</rasd:ElementName>
+        <rasd:HostResource>/disk/swap_disk</rasd:HostResource>
+        <rasd:InstanceID>5</rasd:InstanceID>
+        <rasd:ResourceType>17</rasd:ResourceType>
+      </Item>
+    </VirtualHardwareSection>
+  </VirtualSystem>
+</Envelope>
