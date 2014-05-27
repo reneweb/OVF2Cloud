@@ -34,7 +34,7 @@ class OpenStackHandler:
     def upload_image(self):
 	ks = keystone.Client(username=self.username, password=self.password, tenant_name=self.tenant, auth_url=self.auth_url)
         gl = glance.Client(2, endpoint=self.glance_endpoint, token=ks.auth_token)
-        self.image = gl.images.create(name=self.xml_handler.get_name(), disk_format="qcow2", container_format="bare")
+        self.image = gl.images.create(name=self.xml_handler.get_name(), disk_format="raw", container_format="bare")
 	gl.images.upload(self.image.id, open(self.xml_handler.get_external_file(), 'rb'))
 
     def deploy(self):
