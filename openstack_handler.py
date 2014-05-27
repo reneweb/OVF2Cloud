@@ -26,17 +26,21 @@ class OpenStackHandler:
         httplib.HTTPConnection.debuglevel = 1
 
     def create_flavor(self):
-        nt = nova.Client(self.username, self.password, self.tenant, self.auth_url, service_type="compute")
-        nt.flavors.create(self.xml_handler.get_name(), self.xml_handler.get_memory(), self.xml_handler.get_vcpu_count(),
+        self.nt = nova.Client(self.username, self.password, self.tenant, self.auth_url, service_type="compute")
+        self.nt.flavors.create(self.xml_handler.get_name(), self.xml_handler.get_memory(), self.xml_handler.get_vcpu_count(),
                           self.xml_handler.get_disk_by_name("root_disk")['capacity'], self.flavor_id,
                           self.xml_handler.get_disk_by_name("ephemeral_disk")['capacity'], self.xml_handler.get_disk_by_name("swap_disk")['capacity'])
 
     def upload_image(self):
 	ks = keystone.Client(username=self.username, password=self.password, tenant_name=self.tenant, auth_url=self.auth_url)
-        gl = glance.Client(2, endpoint=self.glance_endpoint, token=ks.auth_token)
-        self.image = gl.images.create(name=self.xml_handler.get_name(), disk_format="raw", container_format="bare")
-	gl.images.upload(self.image.id, open(self.xml_handler.get_external_file(), 'rb'))
+        self.gl = glance.Client(2, endpoint=self.glance_endpoint, token=ks.auth_token)
+        self.image = self.gl.images.create(name=self.xml_handler.get_name(), disk_format="raw", container_format="bare")
+	self.gl.images.upload(self.image.id, open(self.xml_handler.get_external_file(), 'rb'))
 
     def deploy(self):
         nt = nova.Client(self.username, self.password, self.tenant, self.auth_url, service_type="compute")
         nt.servers.create(self.xml_handler.get_name(), self.image, self.flavor_id)
+
+    def clean_up(self):
+	self.gl.images.delete(self.image.id)
+	self.nt.flavors.delete(self.flavor_id)

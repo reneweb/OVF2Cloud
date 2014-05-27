@@ -43,3 +43,4 @@ openstack = OpenStackHandler("http://localhost", "admin", "Fraunhofer", "demo", 
 openstack.upload_image()
 openstack.create_flavor()
 openstack.deploy()
+openstack.clean_up()
