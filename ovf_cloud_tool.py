@@ -39,7 +39,7 @@ elif provider == "OpenNebula":
     opennebula.deploy()
 """
 
-openstack = OpenStackHandler("10.147.69.68", "admin", "Fraunhofer", "demo", XMLHandler("TestOVF.xml"))
+openstack = OpenStackHandler("http://localhost", "admin", "Fraunhofer", "demo", XMLHandler("TestOVF.xml"))
 openstack.upload_image()
 openstack.create_flavor()
 openstack.deploy()
