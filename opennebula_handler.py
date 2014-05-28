@@ -10,7 +10,7 @@ class OpenNebulaHandler:
         self.img = None
         self.vm_template = None
 
-        self.server = xmlrpclib.ServerProxy(host + ':2633/RPC2')
+        self.server = xmlrpclib.ServerProxy("http://" + username + ":" + password + "@" + host + ':2633/RPC2')
 
     def upload_image(self):
         img_template = """
@@ -19,10 +19,10 @@ class OpenNebulaHandler:
           PUBLIC   = NO
           TYPE     = OS
           PERSISTENT  = NO
-          PATH     = {3}
+          PATH     = {2}
         """.format(self.xml_handler.get_name(), self.xml_handler.get_name, self.xml_handler.get_external_file)
 
-        self.img = self.server.one.imageallocate("", img_template, 1)
+        self.img = self.server.one.image.allocate("", img_template, 1)
 
     def deploy(self):
         self.vm_template = """
@@ -45,5 +45,5 @@ class OpenNebulaHandler:
                    self.xml_handler.get_disk_by_name("swap_disk")['capacity'],
                    self.xml_handler.get_disk_by_name("root_disk")['capacity'])
 
-        vm = self.server.one.vmallocate("", self.vm_template)
-        vminfo = self.server.one.vmget_info("", vm[1])
+        vm = self.server.one.vm.allocate("", self.vm_template)
+        vminfo = self.server.one.vm.info("", vm[1])
