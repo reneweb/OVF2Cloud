@@ -3,7 +3,7 @@ import getopt
 from xml_handler import XMLHandler
 from openstack_handler import OpenStackHandler
 from opennebula_handler import OpenNebulaHandler
-"""
+
 try:
     opts, args = getopt.getopt(sys.argv[1:], "fphupt", ["file=", "provider=", "host=", "username=", "password=", "tenant="])
 except getopt.GetoptError:
@@ -32,15 +32,14 @@ if provider == "OpenStack" and not tenant:
 xmlHandler = XMLHandler(file)
 if provider == "OpenStack":
     openstack = OpenStackHandler(host, username, password, tenant, xmlHandler)
+    openstack.upload_image()
     openstack.create_flavor()
-    openstack.create_image()
+    openstack.deploy()
+    openstack.clean_up()
 elif provider == "OpenNebula":
     opennebula = OpenNebulaHandler(host, username, password, xmlHandler)
+    opennebula.upload_image()
     opennebula.deploy()
-"""
 
-openstack = OpenStackHandler("http://localhost", "admin", "Fraunhofer", "demo", XMLHandler("TestOVF.xml"))
-openstack.upload_image()
-openstack.create_flavor()
-openstack.deploy()
-openstack.clean_up()
+
+
