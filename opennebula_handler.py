@@ -9,13 +9,13 @@ class OpenNebulaHandler:
         self.password = password
         self.xml_handler = xml_handler
 
-	self.password = hashlib.sha1(password).hexdigest()
-	self.one_auth = '{0}:{1}'.format(username, password)
+	self.password = hashlib.sha1(self.password).hexdigest()
+	self.one_auth = '{0}:{1}'.format(self.username, self.password)
 
         self.img = None
         self.vm_template = None
 
-        self.server = xmlrpclib.ServerProxy(host + ':2633/RPC2')
+        self.server = xmlrpclib.ServerProxy(self.host + ':2633/RPC2')
 
     def upload_image(self):
         img_template = """
@@ -25,7 +25,9 @@ class OpenNebulaHandler:
           TYPE     = OS
           PERSISTENT  = NO
           PATH     = {2}
-        """.format(self.xml_handler.get_name(), self.xml_handler.get_name, self.xml_handler.get_external_file)
+        """.format(self.xml_handler.get_name(), 
+		   self.xml_handler.get_name, 
+		   self.xml_handler.get_external_file)
 
         self.img = self.server.one.image.allocate(self.one_auth, img_template, 1)
 	if not self.img[0]:
@@ -47,7 +49,9 @@ class OpenNebulaHandler:
                    FORMAT = ext3,
                    SAVE   = yes,
                    TARGET = sde ]
-        """.format(self.xml_handler.get_name(), self.xml_handler.get_memory(), self.xml_handler.get_vcpu_count(),
+        """.format(self.xml_handler.get_name(), 
+		   self.xml_handler.get_memory(), 
+		   self.xml_handler.get_vcpu_count(),
                    self.img,
                    self.xml_handler.get_disk_by_name("swap_disk")['capacity'],
                    self.xml_handler.get_disk_by_name("root_disk")['capacity'])
